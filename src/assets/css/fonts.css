@@ -1,0 +1,21 @@
+/* ملف fonts.css */
+
+/* استيراد الخط Cairo من الملفات المحلية */
+@font-face {
+    font-family: 'Cairo';
+    src: url('@/assets/fonts/Cairo-Regular.woff2') format('woff2'),
+         url('@/assets/fonts/Cairo-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Cairo';
+    src: url('@/assets/fonts/Cairo-Bold.woff2') format('woff2'),
+         url('@/assets/fonts/Cairo-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  /* يمكن إضافة المزيد من الأوزان (مثل 600, 800, إلخ) حسب الحاجة */
+  
