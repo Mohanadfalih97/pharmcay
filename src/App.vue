@@ -1,5 +1,5 @@
 <script setup>
-import Signup from '../src/components/Signup.vue'
+import Signup from '../src/components/Register.vue'
 </script>
 
 <template>

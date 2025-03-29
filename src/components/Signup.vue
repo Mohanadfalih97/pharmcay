@@ -86,3 +86,10 @@ function handleLogin() {
   alert(`تم تسجيل الدخول بالبريد: ${email.value}\nتذكرني: ${rememberMe.value ? 'نعم' : 'لا'}`)
 }
 </script>
+<style>
+
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap');
+
+  
+</style>

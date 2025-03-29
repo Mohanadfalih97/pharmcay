@@ -125,7 +125,10 @@
         :on-change="handlePharmacyImage"
         accept="image/*"
       >
-        <el-button type="primary" class=" text-white">تحميل صورة الصيدلية</el-button>
+      <el-button type="primary" class="text-white text-center" >
+  <i class="mdi mdi-upload text-lg "></i>
+ 
+</el-button>
       </el-upload>
     </div>
   </transition>
@@ -201,6 +204,7 @@ function handlePharmacyImage(file) {
 }
 </script>
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap');
 .fade-slide-enter-active,
 .fade-slide-leave-active {
   transition: all 0.4s ease;
