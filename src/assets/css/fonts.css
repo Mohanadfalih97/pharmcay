@@ -1,0 +1,33 @@
+/* ملف fonts.css */
+
+/* استيراد الخط Cairo من الملفات المحلية */
+@font-face {
+    font-family: 'Cairo';
+    src: url('@/assets/fonts/Cairo-Regular.woff2') format('woff2'),
+         url('@/assets/fonts/Cairo-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Cairo';
+    src: url('@/assets/fonts/Cairo-Bold.woff2') format('woff2'),
+         url('@/assets/fonts/Cairo-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+
+* {
+     font-family: 'Cairo', sans-serif !important;
+   }
+   .fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.4s ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
