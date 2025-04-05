@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "@mdi/font": "^7.4.47",
     "@tailwindcss/vite": "^4.0.15",
     "element-plus": "^2.9.7",

@@ -5,17 +5,39 @@
   >
     <template v-slot:header="{ page, pageCount, prevPage, nextPage }">
       <h1 class="text-h4 font-weight-bold d-flex justify-space-between mb-4 align-center">
-        <div class="text-truncate">
-          Most popular mice
+<div class="d-flex justify-space-between p-2 align-center gap-4 ">
+  <div class="text-truncate">
+        الأدوية المقترحة
         </div>
+        <div class="d-flex  p-2 align-center gap-2">
+    <el-input
+      v-model="searchQuery"
+      placeholder="ابحث هنا"
+      clearable
+      class="search-input"
+    >
+     
+    
+     
+    </el-input>
+    <el-button
+    @click="handleSearch"
+    style="background-color: color(srgb 0.57 0.76 0.77); color: white;"
+  >
+    <el-icon :size="20">
+      <Search />
+    </el-icon>
+  </el-button>
+  </div>
+</div>
 
-        <div class="d-flex align-center">
+        <div class="d-flex align-center" style="direction: ltr;">
           <v-btn
             class="me-8"
             variant="text"
             @click="onClickSeeAll"
           >
-            <span class="text-decoration-underline text-none">See all</span>
+            <span class="text-decoration-underline text-none">عرض الكل</span>
           </v-btn>
 
           <div class="d-inline-flex">
@@ -73,29 +95,41 @@
             <v-table class="text-caption" density="compact">
               <tbody>
                 <tr align="right">
-                  <th>DPI:</th>
+                  <th>الشركة:</th>
                   <td>{{ item.raw.dpi }}</td>
                 </tr>
 
                 <tr align="right">
-                  <th>Buttons:</th>
+                  <th>النوع:</th>
                   <td>{{ item.raw.buttons }}</td>
                 </tr>
 
                 <tr align="right">
-                  <th>Weight:</th>
+                  <th>الوزن:</th>
                   <td>{{ item.raw.weight }}</td>
                 </tr>
 
                 <tr align="right">
-                  <th>Wireless:</th>
+                  <th>سنة الانتاج:</th>
                   <td>{{ item.raw.wireless ? 'Yes' : 'No' }}</td>
                 </tr>
 
                 <tr align="right">
-                  <th>Price:</th>
+                  <th>السعر:</th>
                   <td>${{ item.raw.price }}</td>
                 </tr>
+                <tr align="right">
+  <th>اشتر</th>
+  <td align="right">
+    <v-btn
+      class="ma-2"
+      style="background-color: color(srgb 0.57 0.76 0.77); color: white;"
+    >
+      <v-icon icon="mdi-cart"></v-icon>
+    </v-btn>
+  </td>
+</tr>
+
               </tbody>
             </v-table>
           </v-sheet>
@@ -107,11 +141,12 @@
       <v-footer
         class="justify-space-between text-body-2 mt-4"
         color="surface-variant"
+        style="border-radius: 10px;"
       >
-        Total mice: {{ mice.length }}
+        السعر الكلي: {{ mice.length }}
 
         <div>
-          Page {{ page }} of {{ pageCount }}
+          صفحة {{ page }} من {{ pageCount }}
         </div>
       </v-footer>
     </template>
