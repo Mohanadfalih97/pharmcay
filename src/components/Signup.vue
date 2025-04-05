@@ -62,8 +62,12 @@
 
       <!-- رابط إنشاء حساب -->
       <p class="text-center text-sm text-gray-600">
-        ليس لديك حساب؟ <a href="#" class="text-blue-600 hover:underline">إنشاء حساب</a>
-      </p>
+  ليس لديك حساب؟ 
+  <router-link to="/register" class="text-blue-600 hover:underline">
+    إنشاء حساب
+  </router-link>
+</p>
+
     </form>
   </div>
 </template>
@@ -72,6 +76,7 @@
 import { ref } from 'vue'
 import { ElButton, ElInput, ElCheckbox } from 'element-plus'
 import logo from '../assets/Imges/Icon.png'
+import { RouterLink } from 'vue-router'
 
 const email = ref('')
 const password = ref('')

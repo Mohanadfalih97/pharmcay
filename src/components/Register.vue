@@ -149,7 +149,8 @@
       <!-- رابط تسجيل الدخول -->
       <p class="text-center text-sm text-gray-600">
         لديك حساب بالفعل؟
-        <a href="#" class="text-blue-600 hover:underline">تسجيل الدخول</a>
+        <router-link to="/" class="text-blue-600 hover:underline">
+          تسجيل الدخول  </router-link>
       </p>
     </form>
   </div>
