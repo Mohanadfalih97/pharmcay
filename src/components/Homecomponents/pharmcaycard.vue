@@ -1,9 +1,11 @@
 <template>
+  
     <v-card
       :disabled="loading"
       :loading="loading"
       class="mx-auto my-12"
       max-width="374"
+      dir="rtl"
     >
       <template v-slot:loader="{ isActive }">
         <v-progress-linear
@@ -21,16 +23,16 @@
       ></v-img>
   
       <v-card-item>
-        <v-card-title>Cafe Badilico</v-card-title>
+        <v-card-title>صيدلية الشفاء</v-card-title>
   
         <v-card-subtitle>
-          <span class="me-1">Local Favorite</span>
+          <span class="me-1">بغداد الشعب </span>
   
           <v-icon
-            color="error"
-            icon="mdi-fire-circle"
-            size="small"
-          ></v-icon>
+  color="error"
+  icon="mdi-map-marker"
+  size="small"
+/>
         </v-card-subtitle>
       </v-card-item>
   
@@ -54,15 +56,15 @@
         </v-row>
   
         <div class="my-4 text-subtitle-1">
-          $ • Italian, Cafe
+     
         </div>
   
-        <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+        <div>تقديم افضل الادويه بانسب الاسعار بالاضافه الى مواد التجميلية.</div>
       </v-card-text>
   
       <v-divider class="mx-4 mb-1"></v-divider>
   
-      <v-card-title>Tonight's availability</v-card-title>
+      <v-card-title>اوقات العمل</v-card-title>
   
       <div class="px-4 mb-2">
         <v-chip-group v-model="selection" selected-class="bg-deep-purple-lighten-2">
@@ -70,21 +72,11 @@
   
           <v-chip>7:30PM</v-chip>
   
-          <v-chip>8:00PM</v-chip>
-  
-          <v-chip>9:00PM</v-chip>
+      
         </v-chip-group>
       </div>
   
-      <v-card-actions>
-        <v-btn
-          color="deep-purple-lighten-2"
-          text="Reserve"
-          block
-          border
-          @click="reserve"
-        ></v-btn>
-      </v-card-actions>
+  
     </v-card>
   </template>
   <script setup>
@@ -97,3 +89,18 @@
     setTimeout(() => (loading.value = false), 2000)
   }
 </script>
+<style >
+  .mdi-chevron-right::before {
+    content: "\F0142";
+    color: white !important;
+    background-color: #93c2c6;
+    /* height: 50px; */
+    border-radius: 10px;}
+
+.mdi-chevron-left::before {
+    content: "\F0141";
+    color: white;
+    border-radius: 10px;
+    background-color: #92c1c5;
+}
+</style>

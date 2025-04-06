@@ -6,15 +6,17 @@
     <template v-slot:header="{ page, pageCount, prevPage, nextPage }">
       <h1 class="text-h4 font-weight-bold d-flex justify-space-between mb-4 align-center">
 <div class="d-flex justify-space-between p-2 align-center gap-4 ">
-  <div class="text-truncate">
-        الأدوية المقترحة
-        </div>
+  <div class="d-flex align-center text-truncate" style="font-size:25px">
+  <v-icon size="25" class="me-2" color="#8bbcc0">mdi-pill</v-icon>
+  الأدوية المقترحة
+</div>
+
         <div class="d-flex  p-2 align-center gap-2">
     <el-input
-      v-model="searchQuery"
       placeholder="ابحث هنا"
       clearable
       class="search-input"
+      type="text"
     >
      
     
@@ -48,6 +50,7 @@
               size="small"
               variant="tonal"
               @click="prevPage"
+              style="background-color: #8bbcc0; color: white;"
             ></v-btn>
 
             <v-btn
@@ -56,6 +59,7 @@
               size="small"
               variant="tonal"
               @click="nextPage"
+              style="background-color: #8bbcc0;color: white;"
             ></v-btn>
           </div>
         </div>
@@ -155,6 +159,7 @@
 
 <script setup>
 import { shallowRef } from 'vue'
+import { ElButton, ElInput } from 'element-plus'
 
 const itemsPerPage = shallowRef(4)
 
@@ -330,3 +335,5 @@ function onClickSeeAll() {
   itemsPerPage.value = itemsPerPage.value === 4 ? mice.length : 4
 }
 </script>
+
+

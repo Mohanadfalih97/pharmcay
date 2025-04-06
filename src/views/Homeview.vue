@@ -1,26 +1,27 @@
 <template>
     <div class="page-container">
-      <NavBar />
+    
       <div class="content">
         <Items />
+      </div>
+      <div class="contentPharmcy">
+        <pharmcaies />
+      </div>
+      <div class="Footer-seciton">
+        <Footer />
       </div>
     </div>
   </template>
   
   <script setup>
-  import NavBar from '../components/NavBar.vue';
+
   import Items from '../components/Homecomponents/Items.vue';
+  import pharmcaies from '../components/Homecomponents/pharmcaies.vue';
+  import Footer from '../components/Footer.vue';
   </script>
   
   <style scoped>
-  /* اجعل NavBar ثابتًا في الأعلى */
-  :deep(.navbar) {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-  }
+
   
   /* خلفية الصفحة */
   .page-container {
@@ -38,6 +39,12 @@
     align-items: center;
     padding: 10px;
     padding-top: 60px; /* أو حسب ارتفاع NavBar */
+  }
+  .contentPharmcy{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    padding-top: 30px; /* أو حسب ارتفاع NavBar */
   }
   </style>
   
