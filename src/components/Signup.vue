@@ -74,23 +74,65 @@
 
 <script setup>
 import { ref } from 'vue'
-import { ElButton, ElInput, ElCheckbox } from 'element-plus'
+import { ElMessage, ElButton, ElInput, ElCheckbox } from 'element-plus'
 import logo from '../assets/Imges/Icon.png'
-import { RouterLink } from 'vue-router'
+import { useRouter } from 'vue-router'
+import { useLoginUser } from '../js/useLoginUser'
 
+// البيانات
 const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
 const showPassword = ref(false)
 
+// التنقل
+const router = useRouter()
+
+// TanStack Mutation
+const { mutate: loginUser } = useLoginUser()
+
+// عرض وإخفاء كلمة المرور
 function togglePassword() {
   showPassword.value = !showPassword.value
 }
 
+// تنفيذ تسجيل الدخول
 function handleLogin() {
-  alert(`تم تسجيل الدخول بالبريد: ${email.value}\nتذكرني: ${rememberMe.value ? 'نعم' : 'لا'}`)
+  loginUser(
+    {
+      userName: email.value,
+      password: password.value,
+    },
+    {
+      onSuccess: (data) => {
+        // تخزين التوكين
+        if (rememberMe.value) {
+          localStorage.setItem('token', data.token)
+        } else {
+          sessionStorage.setItem('token', data.token)
+        }
+
+        ElMessage({
+          message: 'تم تسجيل الدخول بنجاح!',
+          type: 'success',
+        })
+
+        // تحويل المستخدم للصفحة الرئيسية مثلاً
+        router.push('/')
+      },
+      onError: (error) => {
+        ElMessage({
+          message: 'فشل تسجيل الدخول. تحقق من البيانات.',
+          type: 'error',
+        })
+        console.error('❌ Login Error:', error)
+      },
+    }
+  )
 }
 </script>
+
+
 <style>
 
 
