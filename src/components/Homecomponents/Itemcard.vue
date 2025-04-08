@@ -160,6 +160,7 @@
 <script setup>
 import { shallowRef } from 'vue'
 import { ElButton, ElInput } from 'element-plus'
+import medicinespic from '../../assets/Imges/images.jpeg'
 
 const itemsPerPage = shallowRef(4)
 
@@ -173,7 +174,7 @@ const mice = [
     wireless: true,
     price: 149.99,
     description: 'Logitech G Pro X',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/3.png',
+    src: medicinespic,
   },
   {
     name: 'Razer DeathAdder V2',
@@ -184,7 +185,7 @@ const mice = [
     wireless: false,
     price: 69.99,
     description: 'Razer DeathAdder V2',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/2.png',
+    src: medicinespic,
   },
   {
     name: 'Corsair Dark Core RGB',
@@ -195,8 +196,7 @@ const mice = [
     wireless: true,
     price: 89.99,
     description: 'Corsair Dark Core RGB',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/1.png',
-  },
+    src: medicinespic,  },
   {
     name: 'SteelSeries Rival 3',
     color: '228, 196, 69',
@@ -206,8 +206,7 @@ const mice = [
     wireless: false,
     price: 29.99,
     description: 'SteelSeries Rival 3',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/4.png',
-  },
+    src: medicinespic,  },
   {
     name: 'HyperX Pulsefire FPS Pro',
     color: '156, 82, 251',
@@ -217,8 +216,7 @@ const mice = [
     wireless: false,
     price: 44.99,
     description: 'HyperX Pulsefire FPS Pro',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/6.png',
-  },
+    src: medicinespic,  },
   {
     name: 'Zowie EC2',
     color: '166, 39, 222',
@@ -228,8 +226,7 @@ const mice = [
     wireless: false,
     price: 69.99,
     description: 'Zowie EC2',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/7.png',
-  },
+    src: medicinespic,  },
   {
     name: 'Roccat Kone AIMO',
     color: '131, 9, 10',
@@ -239,8 +236,7 @@ const mice = [
     wireless: false,
     price: 79.99,
     description: 'Roccat Kone AIMO',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/8.png',
-  },
+    src: medicinespic,  },
   {
     name: 'Logitech G903',
     color: '232, 94, 102',
@@ -250,8 +246,7 @@ const mice = [
     wireless: true,
     price: 129.99,
     description: 'Logitech G903',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/9.png',
-  },
+    src: medicinespic,  },
   {
     name: 'Cooler Master MM711',
     color: '58, 192, 239',
@@ -261,8 +256,7 @@ const mice = [
     wireless: false,
     price: 49.99,
     description: 'Cooler Master MM711',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/5.png',
-  },
+    src: medicinespic,  },
   {
     name: 'Glorious Model O',
     color: '161, 252, 250',
@@ -272,8 +266,7 @@ const mice = [
     wireless: false,
     price: 49.99,
     description: 'Glorious Model O',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/15.png',
-  },
+    src: medicinespic,  },
   {
     name: 'HP Omen Photon',
     color: '201, 1, 2',
@@ -283,8 +276,7 @@ const mice = [
     wireless: true,
     price: 99.99,
     description: 'HP Omen Photon',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/10.png',
-  },
+    src: medicinespic,  },
   {
     name: 'Asus ROG Chakram',
     color: '10, 181, 19',
@@ -294,8 +286,7 @@ const mice = [
     wireless: true,
     price: 159.99,
     description: 'Asus ROG Chakram',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/11.png',
-  },
+    src: medicinespic,  },
   {
     name: 'Razer Naga X',
     color: '100, 101, 102',
@@ -305,8 +296,7 @@ const mice = [
     wireless: false,
     price: 79.99,
     description: 'Razer Naga X',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/12.png',
-  },
+    src: medicinespic,  },
   {
     name: 'Mad Catz R.A.T. 8+',
     color: '136, 241, 242',
@@ -316,8 +306,7 @@ const mice = [
     wireless: false,
     price: 99.99,
     description: 'Mad Catz R.A.T. 8+',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/13.png',
-  },
+    src: medicinespic,  },
   {
     name: 'Alienware 610M',
     color: '109, 110, 114',
@@ -327,8 +316,7 @@ const mice = [
     wireless: true,
     price: 99.99,
     description: 'Alienware 610M',
-    src: 'https://cdn.vuetifyjs.com/docs/images/graphics/mice/14.png',
-  },
+    src: medicinespic,  },
 ]
 
 function onClickSeeAll() {

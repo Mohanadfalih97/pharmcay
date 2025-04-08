@@ -117,8 +117,8 @@ function handleLogin() {
           type: 'success',
         })
 
-        // تحويل المستخدم للصفحة الرئيسية مثلاً
-        router.push('/')
+        // تحويل المستخدم إلى صفحة Home
+        router.push({ path: '/home' })
       },
       onError: (error) => {
         ElMessage({
@@ -131,6 +131,7 @@ function handleLogin() {
   )
 }
 </script>
+
 
 
 <style>
