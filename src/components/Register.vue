@@ -73,34 +73,51 @@
           </el-tooltip>
         </div>
 
-        <!-- قسم الصيدلاني -->
-        <transition name="fade-slide">
-          <div v-if="showPharmacist" class="flex flex-col gap-3">
-            <p class="text-lg font-bold mb-2 text-right text-blue-600">معلومات الصيدلية</p>
+     <!-- قسم الصيدلاني -->
+<transition name="fade-slide">
+  <div v-if="showPharmacist" class="flex flex-col gap-3">
+    <p class="text-lg font-bold mb-2 text-right text-blue-600">معلومات الصيدلاني</p>
 
-            <el-input v-model="pharmacyName" placeholder="اسم الصيدلية" class="mb-3 w-full" />
-            <el-input
-              v-model="email"
-              type="email"
-              placeholder="البريد الإلكتروني"
-              required
-              class="mb-3 w-full"
-            />
-            <el-input v-model="certificateNumber" placeholder="رقم الشهادة" class="mb-3 w-full" />
+    <el-input v-model="pharmacyName" placeholder="اسم الصيدلاني" class="mb-3 w-full" />
+    
+    <el-input
+      v-model="address"
+      type="text"
+      placeholder="العنوان"
+      required
+      class="mb-3 w-full"
+    />
+    
+    <el-input
+      v-model="phone"
+      type="text"
+      placeholder="رقم الهاتف"
+      required
+      class="mb-3 w-full"
+    />
+    
+    <el-input
+      v-model="studies"
+      type="text"
+      placeholder="الجامعة"
+      required
+      class="mb-3 w-full"
+    />
 
-            <el-upload
-              class="w-full"
-              action="#"
-              :auto-upload="false"
-              :on-change="handlePharmacyImage"
-              accept="image/*"
-            >
-              <el-button type="primary" class="text-white text-center">
-                <i class="mdi mdi-upload text-lg"></i>
-              </el-button>
-            </el-upload>
-          </div>
-        </transition>
+    <el-upload
+      class="w-full"
+      action="#"
+      :auto-upload="false"
+      :on-change="handlePharmacyImage"
+      accept="image/*"
+    >
+      <el-button type="primary" class="text-white text-center">
+        <i class="mdi mdi-upload text-lg"></i> رفع صورة
+      </el-button>
+    </el-upload>
+  </div>
+</transition>
+
       </div>
 
       <!-- الشروط والأحكام -->
@@ -126,27 +143,31 @@
 import { ref } from 'vue'
 import { ElButton, ElInput, ElCheckbox, ElTooltip, ElMessage } from 'element-plus'
 import { useRegisterUser } from '../js/useRegisterUser.js'
+import { useRegisterPractitioner } from '../js/useRegisterPractitioner.js'
 import logo from '../assets/Imges/Icon.png'
 
-// البيانات
+// بيانات المستخدم
 const firstName = ref('')
 const lastName = ref('')
 const username = ref('')
-const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 const acceptTerms = ref(false)
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
+
+// بيانات الصيدلاني
 const showPharmacist = ref(false)
 const pharmacyName = ref('')
-const certificateNumber = ref('')
+const address = ref('')
+const phone = ref('')
+const studies = ref('')
 const pharmacyImage = ref(null)
 
-// vue-query
+// vue-query mutations
 const { mutate: registerUser } = useRegisterUser()
+const { mutate: registerPractitioner } = useRegisterPractitioner()
 
-// توجّه كلمة المرور
 function togglePassword() {
   showPassword.value = !showPassword.value
 }
@@ -165,8 +186,6 @@ function handlePharmacyImage(file) {
 
 // تنفيذ التسجيل
 function handleRegister() {
-  console.log('🚀 Trying to register...')
-
   if (password.value !== confirmPassword.value) {
     ElMessage({ message: 'كلمات المرور غير متطابقة.', type: 'error' })
     return
@@ -177,31 +196,83 @@ function handleRegister() {
     return
   }
 
-  const userPayload = {
-    name: firstName.value,
-    lastName: lastName.value,
-    userName: username.value,
-    password: password.value,
+  if (showPharmacist.value) {
+    // تحقق من الحقول الأساسية
+    if (!pharmacyName.value || !address.value || !phone.value || !studies.value || !pharmacyImage.value) {
+      ElMessage({ message: 'يرجى تعبئة جميع معلومات الصيدلاني ورفع صورة.', type: 'error' })
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('namePractitioner', pharmacyName.value)
+    formData.append('password', password.value)
+    formData.append('address', address.value)
+    formData.append('phonNumber', phone.value)
+    formData.append('studies', studies.value)
+    formData.append('imagePractitioner', pharmacyImage.value)
+
+    registerPractitioner(formData, {
+      onSuccess: (result) => {
+        ElMessage({
+          message: result?.message || 'تم إنشاء الحساب بنجاح!',
+          type: 'success',
+        })
+        // توجيه بعد النجاح (اختياري)
+        // router.push('/login')
+      },
+      onError: (error) => {
+        console.error('❌ Error', error)
+
+        const serverMessage =
+          error?.response?.data?.message ||
+          error?.response?.data?.title ||
+          error?.response?.data ||
+          'حدث خطأ، يرجى المحاولة لاحقًا.'
+
+        ElMessage({
+          message: `خطأ: ${serverMessage}`,
+          type: 'error',
+        })
+      },
+    })
+
+  } else {
+    const userPayload = {
+      name: firstName.value,
+      lastName: lastName.value,
+      userName: username.value,
+      password: password.value,
+    }
+
+    registerUser(userPayload, {
+      onSuccess: (result) => {
+        ElMessage({
+          message: result?.message || 'تم إنشاء الحساب بنجاح!',
+          type: 'success',
+        })
+        // توجيه بعد النجاح (اختياري)
+        // router.push('/login')
+      },
+      onError: (error) => {
+        console.error('❌ Error', error)
+
+        const serverMessage =
+          error?.response?.data?.message ||
+          error?.response?.data?.title ||
+          error?.response?.data ||
+          'حدث خطأ، يرجى المحاولة لاحقًا.'
+
+        ElMessage({
+          message: `خطأ: ${serverMessage}`,
+          type: 'error',
+        })
+      },
+    })
   }
-
-  console.log('🛫 Payload:', userPayload)
-
-  registerUser(userPayload, {
-    onSuccess: () => {
-      console.log('✅ Success')
-      ElMessage({ message: 'تم إنشاء الحساب بنجاح!', type: 'success' })
-    },
-    onError: (error) => {
-      console.error('❌ Error', error)
-      ElMessage({
-        message: `حدث خطأ أثناء إنشاء الحساب: ${error.response?.data || 'يرجى المحاولة لاحقًا'}`,
-        type: 'error',
-      })
-    },
-  })
 }
 
 </script>
+
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap');

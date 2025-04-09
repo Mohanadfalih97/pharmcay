@@ -18,7 +18,7 @@ import { useRoute } from 'vue-router'
 import SideBar from './components/SideBar.vue'
 
 const route = useRoute()
-const hideNavRoutes = ['Signup', 'Register']
+const hideNavRoutes = ['Signup', 'Register','404page']
 const drawer = ref(true)
 
 function toggleDrawer() {

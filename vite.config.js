@@ -13,8 +13,10 @@ export default defineConfig({
       '/api': {
         target: 'https://medicines-production.up.railway.app',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, '')
+        secure: false,
+        // لا تقم بإزالة /api من الرابط
       }
     }
   }
+  
 })

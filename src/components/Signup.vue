@@ -48,7 +48,7 @@
       <!-- الخيارات -->
       <div class="flex justify-between items-center text-sm text-gray-700 mt-1 gap-4">
         <el-checkbox v-model="rememberMe" class="gap-2">تذكرني</el-checkbox>
-        <a href="#" class="text-blue-600 hover:underline">نسيت كلمة المرور؟</a>
+        <router-link  to="/404page" class="text-blue-600 hover:underline">نسيت كلمة المرور؟</router-link >
       </div>
 
       <!-- زر تسجيل -->
@@ -117,8 +117,8 @@ function handleLogin() {
           type: 'success',
         })
 
-        // تحويل المستخدم إلى صفحة Home
-        router.push({ path: '/home' })
+        // تحويل المستخدم للصفحة الرئيسية مثلاً
+        router.push('/')
       },
       onError: (error) => {
         ElMessage({
@@ -131,7 +131,6 @@ function handleLogin() {
   )
 }
 </script>
-
 
 
 <style>
