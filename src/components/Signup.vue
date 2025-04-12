@@ -118,7 +118,7 @@ function handleLogin() {
         })
 
         // تحويل المستخدم للصفحة الرئيسية مثلاً
-        router.push('/')
+        router.push('/home')
       },
       onError: (error) => {
         ElMessage({
