@@ -13,6 +13,8 @@ import * as directives from 'vuetify/directives'
 import '@mdi/font/css/materialdesignicons.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { VueQueryPlugin, QueryClient } from '@tanstack/vue-query'
+import { createPinia } from 'pinia'
+
 
 const queryClient = new QueryClient()
 
@@ -30,6 +32,7 @@ import ElementPlus from 'element-plus'
 const app = createApp(App)
 app.use(vuetify)
 app.use(ElementPlus)
+app.use(createPinia())
 app.use(router)
 app.use(VueQueryPlugin, { queryClient })
 app.mount('#app')

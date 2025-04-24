@@ -74,7 +74,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { ElMessage, ElButton, ElInput, ElCheckbox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import logo from '../assets/Imges/Icon.png'
 import { useRouter } from 'vue-router'
 import { useLoginUser } from '../js/useLoginUser'
@@ -105,19 +105,23 @@ function handleLogin() {
     },
     {
       onSuccess: (data) => {
-        // تخزين التوكين
-        if (rememberMe.value) {
-          localStorage.setItem('token', data.token)
-        } else {
-          sessionStorage.setItem('token', data.token)
-        }
+        const storage = localStorage;
+
+
+        // 🧠 تخزين القيم المهمة
+        storage.setItem('token', data.token)
+        storage.setItem('userId', data.userId)
+        storage.setItem('roleId', data.roleId)
+        storage.setItem('practitionerId', data.practitionerId ?? '')
+        storage.setItem('practitionerName', data.practitionerName ?? '')
+        storage.setItem('pharmacy', JSON.stringify(data.pharmacy ?? {}))
 
         ElMessage({
           message: 'تم تسجيل الدخول بنجاح!',
           type: 'success',
         })
 
-        // تحويل المستخدم للصفحة الرئيسية مثلاً
+        // تحويل المستخدم للصفحة الرئيسية
         router.push('/home')
       },
       onError: (error) => {
@@ -131,6 +135,7 @@ function handleLogin() {
   )
 }
 </script>
+
 
 
 <style>

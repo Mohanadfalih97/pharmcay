@@ -21,6 +21,16 @@ const routes = [
     name: '404page',
     component: () => import('../views/404page.vue')
   },
+  {
+  path: '/Pharmacics',
+  name: 'Pharmacics',
+  component: () => import('../views/Pharmacicsview.vue')
+},
+{
+  path: '/AddMedicines',
+  name: 'AddMedicines',
+  component: () => import('../views/AddMedicines.vue')
+},
 ]
 
 const router = createRouter({

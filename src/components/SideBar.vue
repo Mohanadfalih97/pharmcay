@@ -1,6 +1,6 @@
 <!-- components/SideBar.vue -->
 <template>
-  <v-navigation-drawer expand-on-hover rail>
+  <v-navigation-drawer expand-on-hover rail class="custom-scroll">
     <v-list>
       <v-list-item
         prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
@@ -12,37 +12,63 @@
     <v-divider></v-divider>
 
     <v-list density="compact" nav>
-      <router-link to="/myfiles" style="text-decoration: none; color: inherit;">
-        <v-list-item value="myfiles">
+      <router-link to="/home" style="text-decoration: none; color: inherit;">
+        <v-list-item value="home">
           <template v-slot:prepend>
-            <v-icon :style="{ color: 'color(srgb 0.57 0.76 0.77)' }">mdi-folder</v-icon>
+            <v-icon style="color: #95bfc3">mdi-home</v-icon>
           </template>
-          <v-list-item-title>ملفاتي</v-list-item-title>
+          <v-list-item-title>الرئيسية</v-list-item-title>
+        </v-list-item>
+      </router-link>
+      <router-link to="/Pharmacics" style="text-decoration: none; color: inherit;">
+        <v-list-item value="pharmacies">
+          <template v-slot:prepend>
+            <v-icon style="color: #95bfc3">mdi-hospital-building</v-icon>
+          </template>
+          <v-list-item-title>صيدلاتي</v-list-item-title>
         </v-list-item>
       </router-link>
 
-      <router-link to="/shared" style="text-decoration: none; color: inherit;">
-        <v-list-item value="shared">
+      <router-link to="/AddMedicines" style="text-decoration: none; color: inherit;">
+        <v-list-item value="medicines">
           <template v-slot:prepend>
-            <v-icon :style="{ color: 'color(srgb 0.57 0.76 0.77)' }">mdi-account-multiple</v-icon>
+            <v-icon style="color: #95bfc3">mdi-pill</v-icon>
           </template>
-          <v-list-item-title>مشارك معي</v-list-item-title>
+          <v-list-item-title>ادويتي</v-list-item-title>
         </v-list-item>
       </router-link>
 
-      <router-link to="/starred" style="text-decoration: none; color: inherit;">
-        <v-list-item value="starred">
+      <router-link to="/404page" style="text-decoration: none; color: inherit;">
+        <v-list-item value="pharmacies-all">
           <template v-slot:prepend>
-            <v-icon :style="{ color: 'color(srgb 0.57 0.76 0.77)' }">mdi-star</v-icon>
+            <v-icon style="color: #95bfc3">mdi-store</v-icon>
           </template>
-          <v-list-item-title>المميزة</v-list-item-title>
+          <v-list-item-title>الصيدليات</v-list-item-title>
         </v-list-item>
       </router-link>
 
-      <router-link to="/orders" style="text-decoration: none; color: inherit;">
+      <router-link to="/404page" style="text-decoration: none; color: inherit;">
+        <v-list-item value="medicines-all">
+          <template v-slot:prepend>
+            <v-icon style="color: #95bfc3">mdi-pill</v-icon>
+          </template>
+          <v-list-item-title>الادوية</v-list-item-title>
+        </v-list-item>
+      </router-link>
+
+      <router-link to="/404page" style="text-decoration: none; color: inherit;">
+        <v-list-item value="contact">
+          <template v-slot:prepend>
+            <v-icon style="color: #95bfc3">mdi-phone</v-icon>
+          </template>
+          <v-list-item-title>تواصل معنا</v-list-item-title>
+        </v-list-item>
+      </router-link>
+
+      <router-link to="/404page" style="text-decoration: none; color: inherit;">
         <v-list-item value="orders">
           <template v-slot:prepend>
-            <v-icon :style="{ color: 'color(srgb 0.57 0.76 0.77)' }">mdi-cart</v-icon>
+            <v-icon style="color: #95bfc3">mdi-cart</v-icon>
           </template>
           <v-list-item-title>الطلبات</v-list-item-title>
         </v-list-item>
@@ -51,9 +77,9 @@
       <v-divider class="my-2"></v-divider>
 
       <router-link to="/" style="text-decoration: none; color: inherit;">
-        <v-list-item value="logout">
+        <v-list-item value="logout"  @click="handleLogout">
           <template v-slot:prepend>
-            <v-icon :style="{ color: 'tomato' }">mdi-logout</v-icon>
+            <v-icon style="color: tomato">mdi-logout</v-icon>
           </template>
           <v-list-item-title>تسجيل الخروج</v-list-item-title>
         </v-list-item>
@@ -62,9 +88,23 @@
   </v-navigation-drawer>
 </template>
 
+
 <script setup>
-// لا حاجة لكود إضافي الآن
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function handleLogout() {
+  localStorage.removeItem('token')
+  localStorage.removeItem('pharmacy')
+  localStorage.removeItem('practitionerId')
+  localStorage.removeItem('practitionerName')
+  localStorage.removeItem('roleId')
+  localStorage.removeItem('userId')
+  router.push('/') // إعادة توجيه للمسار الرئيسي أو صفحة تسجيل الدخول
+}
 </script>
+
 
 <style scoped>
 /* لا توجد تنسيقات مخصصة */

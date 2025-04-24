@@ -78,7 +78,7 @@
   <div v-if="showPharmacist" class="flex flex-col gap-3">
     <p class="text-lg font-bold mb-2 text-right text-blue-600">معلومات الصيدلاني</p>
 
-    <el-input v-model="pharmacyName" placeholder="اسم الصيدلاني" class="mb-3 w-full" />
+  
     
     <el-input
       v-model="address"
@@ -144,8 +144,10 @@ import { ref } from 'vue'
 import { ElButton, ElInput, ElCheckbox, ElTooltip, ElMessage } from 'element-plus'
 import { useRegisterUser } from '../js/useRegisterUser.js'
 import { useRegisterPractitioner } from '../js/useRegisterPractitioner.js'
-import logo from '../assets/Imges/Icon.png'
+import { useRouter } from 'vue-router'
 
+import logo from '../assets/Imges/Icon.png'
+const router = useRouter()
 // بيانات المستخدم
 const firstName = ref('')
 const lastName = ref('')
@@ -158,7 +160,6 @@ const showConfirmPassword = ref(false)
 
 // بيانات الصيدلاني
 const showPharmacist = ref(false)
-const pharmacyName = ref('')
 const address = ref('')
 const phone = ref('')
 const studies = ref('')
@@ -198,18 +199,18 @@ function handleRegister() {
 
   if (showPharmacist.value) {
     // تحقق من الحقول الأساسية
-    if (!pharmacyName.value || !address.value || !phone.value || !studies.value || !pharmacyImage.value) {
+    if ( !address.value || !phone.value || !studies.value || !pharmacyImage.value) {
       ElMessage({ message: 'يرجى تعبئة جميع معلومات الصيدلاني ورفع صورة.', type: 'error' })
       return
     }
 
-    const formData = new FormData()
-    formData.append('namePractitioner', pharmacyName.value)
-    formData.append('password', password.value)
-    formData.append('address', address.value)
-    formData.append('phonNumber', phone.value)
-    formData.append('studies', studies.value)
-    formData.append('imagePractitioner', pharmacyImage.value)
+ const formData = new FormData()
+ formData.append('UserName', username.value)
+ formData.append('Password', password.value)
+formData.append('Address', address.value)
+formData.append('PhonNumber', phone.value)
+formData.append('Studies', studies.value)
+formData.append('ImagePractitioner', pharmacyImage.value)
 
     registerPractitioner(formData, {
       onSuccess: (result) => {
@@ -218,7 +219,7 @@ function handleRegister() {
           type: 'success',
         })
         // توجيه بعد النجاح (اختياري)
-        // router.push('/login')
+       router.push('/')
       },
       onError: (error) => {
         console.error('❌ Error', error)
@@ -251,7 +252,7 @@ function handleRegister() {
           type: 'success',
         })
         // توجيه بعد النجاح (اختياري)
-        // router.push('/login')
+        router.push('/')
       },
       onError: (error) => {
         console.error('❌ Error', error)
