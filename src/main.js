@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
+
 // ترتيب الاستيراد مهم:
 import 'element-plus/dist/index.css' // أولاً: ستايلات Element Plus
 import './assets/css/fonts.css'      // ثم: الخطوط الخاصة بك

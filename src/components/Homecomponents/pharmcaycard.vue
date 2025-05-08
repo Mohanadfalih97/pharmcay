@@ -1,106 +1,94 @@
 <template>
-  
-    <v-card
-      :disabled="loading"
-      :loading="loading"
-      class="mx-auto my-12"
-      max-width="374"
-      dir="rtl"
+  <div class="pharmacy-list" style="direction: rtl; padding: 20px;">
+    <fwb-card
+      v-for="pharmacy in pharmacies"
+      :key="pharmacy.id"
+      variant="horizontal"
+      :img-src="pharmacy.imagePharmacics ? `https://medicines-production.up.railway.app${pharmacy.imagePharmacics}` : 'https://via.placeholder.com/300x200?text=No+Image'"
+      img-alt="Pharmacy Image"
+      class="pharmacy-card"
     >
-      <template v-slot:loader="{ isActive }">
-        <v-progress-linear
-          :active="isActive"
-          color="deep-purple"
-          height="4"
-          indeterminate
-        ></v-progress-linear>
-      </template>
-  
-      <v-img
-        height="250"
-        src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-        cover
-      ></v-img>
-  
-      <v-card-item>
-        <v-card-title>صيدلية الشفاء</v-card-title>
-  
-        <v-card-subtitle>
-          <span class="me-1">بغداد الشعب </span>
-  
-          <v-icon
-  color="error"
-  icon="mdi-map-marker"
-  size="small"
-/>
-        </v-card-subtitle>
-      </v-card-item>
-  
-      <v-card-text>
-        <v-row
-          align="center"
-          class="mx-0"
-        >
-          <v-rating
-            :model-value="4.5"
-            color="amber"
-            density="compact"
-            size="small"
-            half-increments
-            readonly
-          ></v-rating>
-  
-          <div class="text-grey ms-4">
-            4.5 (413)
-          </div>
-        </v-row>
-  
-        <div class="my-4 text-subtitle-1">
-     
-        </div>
-  
-        <div>تقديم افضل الادويه بانسب الاسعار بالاضافه الى مواد التجميلية.</div>
-      </v-card-text>
-  
-      <v-divider class="mx-4 mb-1"></v-divider>
-  
-      <v-card-title>اوقات العمل</v-card-title>
-  
-      <div class="px-4 mb-2">
-        <v-chip-group v-model="selection" selected-class="bg-deep-purple-lighten-2">
-          <v-chip>5:30PM</v-chip>
-  
-          <v-chip>7:30PM</v-chip>
-  
-      
-        </v-chip-group>
+      <div class="p-5">
+        <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          {{ pharmacy.name }}
+        </h5>
+
+        <p class="font-normal text-gray-700 dark:text-gray-300">
+          <v-icon>mdi-map-marker</v-icon>
+          <strong>العنوان:</strong> {{ pharmacy.address }}
+        </p>
+
+        <p class="font-normal text-gray-700 dark:text-gray-300 mt-2">
+          <v-icon>mdi-clock-outline</v-icon>
+          <strong>وقت الافتتاح:</strong>
+          <span style="color: green;">
+            {{ pharmacy.openTime || 'غير متوفر' }}
+          </span>
+        </p>
+
+        <p class="font-normal text-gray-700 dark:text-gray-300 mt-2">
+          <v-icon>mdi-clock-out</v-icon>
+          <strong>وقت الإغلاق:</strong>
+          <span  style="color: red;">
+            {{ pharmacy.closeTime || 'غير متوفر' }}
+          </span>
+        </p>
       </div>
-  
-  
-    </v-card>
-  </template>
-  <script setup>
-  import { ref } from 'vue'
+    </fwb-card>
 
-  const loading = ref(false)
-  const selection = ref(1)
-  function reserve () {
-    loading.value = true
-    setTimeout(() => (loading.value = false), 2000)
+    <div v-if="pharmacies.length === 0" class="no-data">
+      <p>لا توجد بيانات لعرضها</p>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { FwbCard } from 'flowbite-vue';
+
+const pharmacies = ref([]);
+
+const fetchPharmacies = async () => {
+  try {
+    const response = await axios.get( `${import.meta.env.VITE_API_BASE_URL}/api/Medicine`, {
+      params: {
+        pageNumber: 1,
+        pageSize: 10,
+        Pharmacice: 1,
+      },
+    });
+
+    if (response.status === 200 && response.data?.data) {
+      pharmacies.value = response.data.data.map(pharmacy => pharmacy.pharmacy);
+    } else {
+      console.error('Failed to fetch data:', response.status);
+    }
+  } catch (error) {
+    console.error('Error fetching pharmacies:', error);
   }
-</script>
-<style >
-  .mdi-chevron-right::before {
-    content: "\F0142";
-    color: white !important;
-    background-color: #93c2c6;
-    /* height: 50px; */
-    border-radius: 10px;}
+};
 
-.mdi-chevron-left::before {
-    content: "\F0141";
-    color: white;
-    border-radius: 10px;
-    background-color: #92c1c5;
+onMounted(fetchPharmacies);
+</script>
+
+<style scoped>
+.pharmacy-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.pharmacy-card {
+  width: 100%;
+  max-width: 600px;
+  background-color: #f8f9fa;
+}
+
+.no-data {
+  text-align: center;
+  color: red;
+  font-size: 18px;
+  width: 100%;
 }
 </style>

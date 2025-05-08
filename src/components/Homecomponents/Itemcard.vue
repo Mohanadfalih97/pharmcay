@@ -1,66 +1,33 @@
 <template>
   <v-data-iterator
-    :items="mice"
+    :items="filteredMedicines"
     :items-per-page="itemsPerPage"
+    :page.sync="pageNumber"
   >
     <template v-slot:header="{ page, pageCount, prevPage, nextPage }">
       <h1 class="text-h4 font-weight-bold d-flex justify-space-between mb-4 align-center">
-<div class="d-flex justify-space-between p-2 align-center gap-4 ">
-  <div class="d-flex align-center text-truncate" style="font-size:25px">
-  <v-icon size="25" class="me-2" color="#8bbcc0">mdi-pill</v-icon>
-  الأدوية المقترحة
-</div>
+        <div class="d-flex justify-space-between p-2 align-center gap-4">
+          <div class="d-flex align-center text-truncate" style="font-size:25px">
+            <v-icon size="25" class="me-2" color="#8bbcc0">mdi-pill</v-icon>
+            الأدوية المقترحة
+          </div>
 
-        <div class="d-flex  p-2 align-center gap-2">
-    <el-input
-      placeholder="ابحث هنا"
-      clearable
-      class="search-input"
-      type="text"
-    >
-     
-    
-     
-    </el-input>
-    <el-button
-    @click="handleSearch"
-    style="background-color: color(srgb 0.57 0.76 0.77); color: white;"
-  >
-    <el-icon :size="20">
-      <Search />
-    </el-icon>
-  </el-button>
-  </div>
-</div>
-
-        <div class="d-flex align-center" style="direction: ltr;">
-          <v-btn
-            class="me-8"
-            variant="text"
-            @click="onClickSeeAll"
-          >
-            <span class="text-decoration-underline text-none">عرض الكل</span>
-          </v-btn>
-
-          <div class="d-inline-flex">
-            <v-btn
-              :disabled="page === 1"
-              class="me-2"
-              icon="mdi-arrow-left"
-              size="small"
-              variant="tonal"
-              @click="prevPage"
-              style="background-color: #8bbcc0; color: white;"
-            ></v-btn>
-
-            <v-btn
-              :disabled="page === pageCount"
-              icon="mdi-arrow-right"
-              size="small"
-              variant="tonal"
-              @click="nextPage"
-              style="background-color: #8bbcc0;color: white;"
-            ></v-btn>
+          <div class="d-flex p-2 align-center gap-2">
+            <el-input
+              v-model="searchTerm"
+              placeholder="ابحث هنا"
+              clearable
+              class="search-input"
+              type="text"
+            ></el-input>
+            <el-button
+              @click="handleSearch"
+              style="background-color: color(srgb 0.57 0.76 0.77); color: white;"
+            >
+              <el-icon :size="20">
+                <Search />
+              </el-icon>
+            </el-button>
           </div>
         </div>
       </h1>
@@ -68,31 +35,21 @@
 
     <template v-slot:default="{ items }">
       <v-row>
-        <v-col
-          v-for="(item, i) in items"
-          :key="i"
-          cols="12"
-          sm="6"
-          xl="3"
-        >
+        <v-col v-for="({ raw }, i) in items" :key="i" cols="12" sm="6" xl="3">
           <v-sheet border>
-            <v-img
-              :gradient="`to top right, rgba(255, 255, 255, .1), rgba(${item.raw.color}, .15)`"
-              :src="item.raw.src"
-              height="150"
-              cover
-            ></v-img>
+            <img
+              :src="getImageUrl(raw.imageMedicine)"
+              style="width: 100%; height: 150px; object-fit: cover;"
+            />
 
             <v-list-item
-              :title="item.raw.name"
+              :title="raw.tradeName"
               density="comfortable"
               lines="two"
-              subtitle="Lorem ipsum dil orei namdie dkaf"
+              :subtitle="raw.scientificName"
             >
               <template v-slot:title>
-                <strong class="text-h6">
-                  {{ item.raw.name }}
-                </strong>
+                <strong class="text-h6">{{ raw.tradeName }}</strong>
               </template>
             </v-list-item>
 
@@ -100,40 +57,37 @@
               <tbody>
                 <tr align="right">
                   <th>الشركة:</th>
-                  <td>{{ item.raw.dpi }}</td>
+                  <td>{{ raw.manufacturerName }}</td>
                 </tr>
-
                 <tr align="right">
-                  <th>النوع:</th>
-                  <td>{{ item.raw.buttons }}</td>
+                  <th>المنتج:</th>
+                  <td>{{ raw.producingCompany }}</td>
                 </tr>
-
                 <tr align="right">
-                  <th>الوزن:</th>
-                  <td>{{ item.raw.weight }}</td>
+                  <th>الجرعة:</th>
+                  <td>{{ raw.dosage }}</td>
                 </tr>
-
                 <tr align="right">
-                  <th>سنة الانتاج:</th>
-                  <td>{{ item.raw.wireless ? 'Yes' : 'No' }}</td>
+                  <th>وقت الدواء:</th>
+                  <td>{{ raw.drugTiming }}</td>
                 </tr>
-
                 <tr align="right">
                   <th>السعر:</th>
-                  <td>${{ item.raw.price }}</td>
+                  <td>{{ raw.price }} دينار</td>
                 </tr>
                 <tr align="right">
-  <th>اشتر</th>
-  <td align="right">
-    <v-btn
-      class="ma-2"
-      style="background-color: color(srgb 0.57 0.76 0.77); color: white;"
-    >
-      <v-icon icon="mdi-cart"></v-icon>
-    </v-btn>
-  </td>
-</tr>
-
+                  <th>اشتر</th>
+                  <td align="right">
+                    <!-- تعديل الزر ليمرر id الدواء و pharmacyId -->
+                    <v-btn
+                      class="ma-2"
+                      @click="goToOrderPage(raw.id, raw.pharmacy.id)"
+                      style="background-color: color(srgb 0.57 0.76 0.77); color: white;"
+                    >
+                      <v-icon icon="mdi-cart"></v-icon>
+                    </v-btn>
+                  </td>
+                </tr>
               </tbody>
             </v-table>
           </v-sheet>
@@ -141,187 +95,87 @@
       </v-row>
     </template>
 
-    <template v-slot:footer="{ page, pageCount }">
-      <v-footer
-        class="justify-space-between text-body-2 mt-4"
-        color="surface-variant"
-        style="border-radius: 10px;"
-      >
-        السعر الكلي: {{ mice.length }}
-
-        <div>
-          صفحة {{ page }} من {{ pageCount }}
-        </div>
+    <template v-slot:footer>
+      <v-footer class="justify-space-between text-body-2 mt-4" color="surface-variant" style="border-radius: 10px;">
+        <div>عدد الأدوية الكلي: {{ totalItems }}</div>
+        <el-pagination
+          style="direction: ltr;"
+          background
+          layout="prev, pager, next"
+          :total="totalItems"
+          :page-size="itemsPerPage"
+          :current-page="pageNumber"
+          @current-change="handlePageChange"
+        />
       </v-footer>
     </template>
   </v-data-iterator>
 </template>
 
 <script setup>
-import { shallowRef } from 'vue'
-import { ElButton, ElInput } from 'element-plus'
-import medicinespic from '../../assets/Imges/images.jpeg'
+import { ref, computed, onMounted } from 'vue'
+import axios from 'axios'
+import { ElButton, ElInput, ElIcon, ElPagination } from 'element-plus'
+import { Search } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
 
-const itemsPerPage = shallowRef(4)
+const medicines = ref([])
+const searchTerm = ref('')
+const itemsPerPage = 4
+const pageNumber = ref(1)
+const totalItems = ref(0)
+const router = useRouter()
 
-const mice = [
-  {
-    name: 'Logitech G Pro X',
-    color: '14, 151, 210',
-    dpi: 16000,
-    buttons: 8,
-    weight: '63g',
-    wireless: true,
-    price: 149.99,
-    description: 'Logitech G Pro X',
-    src: medicinespic,
-  },
-  {
-    name: 'Razer DeathAdder V2',
-    color: '12, 146, 47',
-    dpi: 20000,
-    buttons: 8,
-    weight: '82g',
-    wireless: false,
-    price: 69.99,
-    description: 'Razer DeathAdder V2',
-    src: medicinespic,
-  },
-  {
-    name: 'Corsair Dark Core RGB',
-    color: '107, 187, 226',
-    dpi: 18000,
-    buttons: 9,
-    weight: '133g',
-    wireless: true,
-    price: 89.99,
-    description: 'Corsair Dark Core RGB',
-    src: medicinespic,  },
-  {
-    name: 'SteelSeries Rival 3',
-    color: '228, 196, 69',
-    dpi: 8500,
-    buttons: 6,
-    weight: '77g',
-    wireless: false,
-    price: 29.99,
-    description: 'SteelSeries Rival 3',
-    src: medicinespic,  },
-  {
-    name: 'HyperX Pulsefire FPS Pro',
-    color: '156, 82, 251',
-    dpi: 16000,
-    buttons: 6,
-    weight: '95g',
-    wireless: false,
-    price: 44.99,
-    description: 'HyperX Pulsefire FPS Pro',
-    src: medicinespic,  },
-  {
-    name: 'Zowie EC2',
-    color: '166, 39, 222',
-    dpi: 3200,
-    buttons: 5,
-    weight: '90g',
-    wireless: false,
-    price: 69.99,
-    description: 'Zowie EC2',
-    src: medicinespic,  },
-  {
-    name: 'Roccat Kone AIMO',
-    color: '131, 9, 10',
-    dpi: 16000,
-    buttons: 10,
-    weight: '130g',
-    wireless: false,
-    price: 79.99,
-    description: 'Roccat Kone AIMO',
-    src: medicinespic,  },
-  {
-    name: 'Logitech G903',
-    color: '232, 94, 102',
-    dpi: 12000,
-    buttons: 11,
-    weight: '110g',
-    wireless: true,
-    price: 129.99,
-    description: 'Logitech G903',
-    src: medicinespic,  },
-  {
-    name: 'Cooler Master MM711',
-    color: '58, 192, 239',
-    dpi: 16000,
-    buttons: 6,
-    weight: '60g',
-    wireless: false,
-    price: 49.99,
-    description: 'Cooler Master MM711',
-    src: medicinespic,  },
-  {
-    name: 'Glorious Model O',
-    color: '161, 252, 250',
-    dpi: 12000,
-    buttons: 6,
-    weight: '67g',
-    wireless: false,
-    price: 49.99,
-    description: 'Glorious Model O',
-    src: medicinespic,  },
-  {
-    name: 'HP Omen Photon',
-    color: '201, 1, 2',
-    dpi: 16000,
-    buttons: 11,
-    weight: '128g',
-    wireless: true,
-    price: 99.99,
-    description: 'HP Omen Photon',
-    src: medicinespic,  },
-  {
-    name: 'Asus ROG Chakram',
-    color: '10, 181, 19',
-    dpi: 16000,
-    buttons: 9,
-    weight: '121g',
-    wireless: true,
-    price: 159.99,
-    description: 'Asus ROG Chakram',
-    src: medicinespic,  },
-  {
-    name: 'Razer Naga X',
-    color: '100, 101, 102',
-    dpi: 16000,
-    buttons: 16,
-    weight: '85g',
-    wireless: false,
-    price: 79.99,
-    description: 'Razer Naga X',
-    src: medicinespic,  },
-  {
-    name: 'Mad Catz R.A.T. 8+',
-    color: '136, 241, 242',
-    dpi: 16000,
-    buttons: 11,
-    weight: '145g',
-    wireless: false,
-    price: 99.99,
-    description: 'Mad Catz R.A.T. 8+',
-    src: medicinespic,  },
-  {
-    name: 'Alienware 610M',
-    color: '109, 110, 114',
-    dpi: 16000,
-    buttons: 7,
-    weight: '120g',
-    wireless: true,
-    price: 99.99,
-    description: 'Alienware 610M',
-    src: medicinespic,  },
-]
-
-function onClickSeeAll() {
-  itemsPerPage.value = itemsPerPage.value === 4 ? mice.length : 4
+function getImageUrl(path) {
+  return `https://medicines-production.up.railway.app${path}`
 }
+
+const filteredMedicines = computed(() => {
+  if (!medicines.value || medicines.value.length === 0) return []
+  if (!searchTerm.value) return medicines.value
+  return medicines.value.filter(med =>
+    med.tradeName?.toLowerCase().includes(searchTerm.value.toLowerCase())
+  )
+})
+
+async function fetchMedicines() {
+  try {
+    const response = await axios.get( `${import.meta.env.VITE_API_BASE_URL}/api/Medicine`, {
+      params: {
+        pageNumber: 1,
+        pageSize: 1000
+      }
+    })
+    medicines.value = response.data.data
+    totalItems.value = response.data.totalItems
+    console.log('✅ Medicines fetched:', medicines.value)
+  } catch (error) {
+    console.error('❌ Error fetching medicines:', error)
+  }
+}
+
+function handlePageChange(newPage) {
+  pageNumber.value = newPage
+}
+
+function handleSearch() {
+  pageNumber.value = 1
+}
+
+// دالة التوجيه إلى صفحة الطلبات مع تمرير id الدواء و pharmacyId
+function goToOrderPage(medicineId, pharmacyId) {
+  router.push({ path: '/OrderMedicines', query: { id: medicineId, pharmacyId: pharmacyId } })
+}
+
+onMounted(() => {
+  fetchMedicines()
+})
 </script>
-
-
+<style scoped>
+::v-deep(.el-pagination.is-background .btn-next.is-active),
+::v-deep(.el-pagination.is-background .btn-prev.is-active),
+::v-deep(.el-pagination.is-background .el-pager li.is-active) {
+  background-color: #98c8cc;
+  color: var(--el-color-white);
+}
+</style>

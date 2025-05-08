@@ -265,7 +265,7 @@ const fetchPractitionerData = async () => {
       return;
     }
 
-    const response = await axios.get(`/api/Practitioner/${practitionerId}`, {
+    const response = await axios.get( `${import.meta.env.VITE_API_BASE_URL}/api/Practitioner/${practitionerId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },

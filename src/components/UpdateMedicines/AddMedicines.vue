@@ -230,7 +230,7 @@ const searchMedicines = async () => {
   const practitionerId = localStorage.getItem("practitionerId"); // جلب practitionerId من الـ localStorage
   if (practitionerId && searchQuery.value.trim() !== "") {
     const response = await fetch(
-      `/api/Practitioner/search?practitionerId=${practitionerId}&search=${searchQuery.value}`,
+       `${import.meta.env.VITE_API_BASE_URL}/api/Practitioner/search?practitionerId=${practitionerId}&search=${searchQuery.value}`,
       {
         headers: {
           accept: "*/*",

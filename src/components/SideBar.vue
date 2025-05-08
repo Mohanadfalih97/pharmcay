@@ -65,7 +65,7 @@
         </v-list-item>
       </router-link>
 
-      <router-link to="/404page" style="text-decoration: none; color: inherit;">
+      <router-link to="/Orderlist" style="text-decoration: none; color: inherit;">
         <v-list-item value="orders">
           <template v-slot:prepend>
             <v-icon style="color: #95bfc3">mdi-cart</v-icon>

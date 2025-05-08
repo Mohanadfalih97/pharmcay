@@ -8,16 +8,5 @@ export default defineConfig({
     vue(),
     tailwindcss(),
   ],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://medicines-production.up.railway.app',
-        changeOrigin: true,
-        secure: true, 
-        
-      }
-    }
-  }
-  
-  
+
 })

@@ -11,10 +11,13 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "@mdi/font": "^7.4.47",
+    "@microsoft/signalr": "^8.0.7",
     "@tailwindcss/vite": "^4.0.15",
     "@tanstack/vue-query": "^5.72.0",
     "axios": "^1.8.4",
     "element-plus": "^2.9.7",
+    "flowbite": "^3.1.2",
+    "flowbite-vue": "^0.2.1",
     "leaflet": "^1.9.4",
     "pinia": "^3.0.2",
     "vue": "^3.5.13",
